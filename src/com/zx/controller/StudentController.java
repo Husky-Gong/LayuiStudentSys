@@ -16,7 +16,7 @@ import com.zx.service.impl.StudentServiceImpl;
 
 
 
-@WebServlet
+@WebServlet("/student.do")
 public class StudentController extends HttpServlet{
 
 	/**

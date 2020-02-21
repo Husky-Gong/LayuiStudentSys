@@ -26,11 +26,12 @@ public class BaseDao {
 		List<T> list = new ArrayList<T>();
 		PreparedStatement prep = null;
 		ResultSet rs = null;
-		
+		System.out.println(sql);
 		prep = conn.prepareStatement(sql);
 		for(int i = 0; i<param.length; i++) {
 			prep.setObject(i+1, param[i]);
 		}
+		
 		rs = prep.executeQuery();
 		// get query information
 		ResultSetMetaData metaData = rs.getMetaData();
@@ -39,7 +40,8 @@ public class BaseDao {
 		while(rs.next()) {
 			T t = cls.getConstructor().newInstance();
 			for(int i=1; i <= columnCount; i++) {
-				String columnLabel = metaData.getColumnClassName(i);
+				String columnLabel = metaData.getColumnLabel(i);
+				System.out.println(columnLabel);
 				
 				Object object = rs.getObject(columnLabel);
 				

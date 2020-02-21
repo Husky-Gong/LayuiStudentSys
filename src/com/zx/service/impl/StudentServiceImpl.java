@@ -24,6 +24,7 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public boolean addStudent(Student stu) throws Exception {
 		IStudentDao studentDao = new StudentDao();
+		System.out.println(stu.getStudentNumber());
 		Student student = studentDao.selectStudent(stu.getStudentNumber());
 		
 		if(student != null) {

@@ -14,7 +14,7 @@ public class StudentDao extends BaseDao implements IStudentDao{
 
 	@Override
 	public Student insert(Student stu) {
-		String sql = "insert into student value(0,?,?,?,?,?,?)";
+		String sql = "insert into student value(0,?,?,?,?,?,?,?)";
 		System.out.println(stu);
 		
 		int id = super.insert(sql, stu.getStudentNumber(),stu.getName(),stu.getAge(),stu.getSex(),stu.getPhone(),stu.getCity(),stu.getInfo());
