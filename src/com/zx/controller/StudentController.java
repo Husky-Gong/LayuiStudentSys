@@ -40,7 +40,7 @@ public class StudentController extends HttpServlet{
 		
 	}
 
-	private void add(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		IStudentService studentService = new StudentServiceImpl();
 		
 		String studentNumber = req.getParameter("stNo");
@@ -52,16 +52,20 @@ public class StudentController extends HttpServlet{
 		String info = req.getParameter("info");
 		
 		Student stu = studentService.getStudent(studentNumber, name, age, sex, phone, city, info);
-		boolean flag = studentService.addStudent(stu);
-		
-		// if new student added successfully
-		if(flag) {
-			resp.setCharacterEncoding("UTF-8");
-			resp.setContentType("json/text;charset=UTF-8");
-			JSONObject rs = new JSONObject();
-			rs.put("code", 200);
-			rs.put("msg", "success");
-			resp.getWriter().print(rs.toJSONString());
+		boolean flag;
+		try {
+			flag = studentService.addStudent(stu);
+			// if new student added successfully
+			if(flag) {
+				resp.setCharacterEncoding("UTF-8");
+				resp.setContentType("json/text;charset=UTF-8");
+				JSONObject rs = new JSONObject();
+				rs.put("code", 200);
+				rs.put("msg", "success");
+				resp.getWriter().print(rs.toJSONString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
