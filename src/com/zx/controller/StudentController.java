@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zx.pojo.Student;
 import com.zx.service.IStudentService;
 import com.zx.service.impl.StudentServiceImpl;
+
 
 
 
@@ -38,7 +40,7 @@ public class StudentController extends HttpServlet{
 		
 	}
 
-	private void add(HttpServletRequest req, HttpServletResponse resp) {
+	private void add(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		IStudentService studentService = new StudentServiceImpl();
 		
 		String studentNumber = req.getParameter("stNo");
@@ -51,6 +53,16 @@ public class StudentController extends HttpServlet{
 		
 		Student stu = studentService.getStudent(studentNumber, name, age, sex, phone, city, info);
 		boolean flag = studentService.addStudent(stu);
+		
+		// if new student added successfully
+		if(flag) {
+			resp.setCharacterEncoding("UTF-8");
+			resp.setContentType("json/text;charset=UTF-8");
+			JSONObject rs = new JSONObject();
+			rs.put("code", 200);
+			rs.put("msg", "success");
+			resp.getWriter().print(rs.toJSONString());
+		}
 	}
 	
 	

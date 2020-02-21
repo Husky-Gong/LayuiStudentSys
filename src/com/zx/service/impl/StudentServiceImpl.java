@@ -22,7 +22,7 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public boolean addStudent(Student stu) {
+	public boolean addStudent(Student stu) throws Exception {
 		IStudentDao studentDao = new StudentDao();
 		Student student = studentDao.selectStudent(stu.getStudentNumber());
 		
