@@ -31,20 +31,24 @@ public class BaseDao {
 		for(int i = 0; i<param.length; i++) {
 			prep.setObject(i+1, param[i]);
 		}
-		
+		// query result set
 		rs = prep.executeQuery();
 		// get query information
 		ResultSetMetaData metaData = rs.getMetaData();
-		// get column number
+		// get column number which will be used in following loop
 		int columnCount = metaData.getColumnCount();
 		while(rs.next()) {
+			// Generate object
 			T t = cls.getConstructor().newInstance();
+			// set object fields using reflection
 			for(int i=1; i <= columnCount; i++) {
+				// Get column name
 				String columnLabel = metaData.getColumnLabel(i);
 				System.out.println(columnLabel);
-				
+				// get column value
 				Object object = rs.getObject(columnLabel);
-				
+				// set value  
+				//find attribute by using column name
 				Field field = cls.getDeclaredField(columnLabel);
 				
 				field.setAccessible(true);
@@ -62,18 +66,16 @@ public class BaseDao {
 		PreparedStatement prep = null;
 		ResultSet rs = null;
 		try {
-			//获取指令对象，且支持获取数据库生成主键值
+			
 			prep = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			//设置参数
-			//设置参数 根据循环设置参数
+			//Set parameters
 			for (int i = 0; i < param.length; i++) {
-				//PreparedStatement 设置参数是 第一个? 下标为  1 第二个是2
+				//PreparedStatement starts from index 1
 				prep.setObject(i+1, param[i]);
 			}
 			prep.executeUpdate();
-			//获取生成主键值
+			//set primary key
 			rs = prep.getGeneratedKeys();
-			//偏移结果集的指针
 			rs.next();
 			return rs.getInt(1);
 			
