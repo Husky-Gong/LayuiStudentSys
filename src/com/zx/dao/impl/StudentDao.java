@@ -23,7 +23,8 @@ public class StudentDao extends BaseDao implements IStudentDao{
 			System.out.println("Add Student Failed");
 			return null;
 		}
-		stu.setStudentNumber(id);
+		stu.setId(id);
+		return stu;
 	}
 
 }
